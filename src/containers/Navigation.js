@@ -1,9 +1,9 @@
-import { connect } from 'react-redux';
-import NavigatorView from '../navigation/Navigation';
+import {connect} from "react-redux"
+import NavigatorView from "../navigation/Navigation"
 
 export default connect(
-  state => ({
-    authState: state.auth,
-    navigatorState: state.navigation,
-  }),
-)(NavigatorView);
+	state => ({
+		authState: state.auth,
+		navigatorState: state.navigation
+	})
+)(NavigatorView)

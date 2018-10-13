@@ -1,11 +1,11 @@
-import { applyMiddleware, createStore, compose } from 'redux';
-import { persistStore, autoRehydrate } from 'redux-persist';
-import { AsyncStorage } from 'react-native';
-import middleware from './middleware';
-import reducer from './reducer';
+import {applyMiddleware, createStore, compose} from "redux";
+import {persistStore, autoRehydrate} from "redux-persist";
+import {AsyncStorage} from "react-native";
+import middleware from "./middleware";
+import reducer from "./reducer";
 
 const enhancers = [
-  applyMiddleware(...middleware),
+	applyMiddleware(...middleware),
 ];
 
 /* Enable redux dev tools only in development.
@@ -21,14 +21,14 @@ const enhancer = composeEnhancers(...enhancers);
 
 // create the store
 const store = createStore(
-  reducer,
-  enhancer,
-  autoRehydrate(),
+	reducer,
+	enhancer,
+	autoRehydrate()
 );
 
 persistStore(store, {
-  storage: AsyncStorage,
-  blacklist: ['training'],
+	storage: AsyncStorage,
+	blacklist: ["training"],
 });
 
 export default store;
