@@ -34,7 +34,6 @@ export default class GridsScreen extends React.Component {
 	}
 
 	_getRenderItemFunction() {
-		console.log(this.props.tabIndex);
 		return [this.renderRowOne, this.renderRowTwo, this.renderRowThree][this.props.tabIndex];
 	}
 
@@ -59,7 +58,6 @@ export default class GridsScreen extends React.Component {
 						<Text style={styles.itemOneTitle} numberOfLines={1}>{item.title.clean}</Text>
 						<Text style={styles.itemOneSubTitle} styleName="collapsible"
 						      numberOfLines={3}>{item.excerpt.clean}</Text>
-						{/*<Text style={styles.itemOnePrice} numberOfLines={1}>{Moment(item.date).format(dateFormat)}</Text>*/}
 					</View>
 				</View>
 			</TouchableOpacity>
@@ -107,11 +105,8 @@ export default class GridsScreen extends React.Component {
 						style={styles.itemThreeImage}
 					/>
 					<View style={styles.itemThreeContent}>
-						<Text style={styles.itemThreeBrand}>{item.brand}</Text>
-						<View>
-							<Text style={styles.itemThreeTitle}>{item.title.clean}</Text>
-							<Text style={styles.itemThreeSubtitle} numberOfLines={1}>{item.excerpt.clean}</Text>
-						</View>
+						<Text style={styles.itemThreeTitle} numberOfLines={1}>{item.title.clean}</Text>
+						<Text style={styles.itemThreeSubtitle} numberOfLines={2}>{item.excerpt.clean}</Text>
 						<View style={styles.itemThreeMetaContainer}>
 							{item.badge && (
 								<View
@@ -152,6 +147,8 @@ export default class GridsScreen extends React.Component {
 						style={{backgroundColor: Colors.white, paddingHorizontal: 15,}}
 						data={groupedData}
 						renderItem={this._getRenderItemFunction()}
+						onRefresh={this.props.gridStateActions.loadData}
+						refreshing={!this.props.data || this.props.data.length === 0 }
 					/>
 				)}
 			</View>
@@ -213,6 +210,7 @@ const styles = StyleSheet.create({
 		position: "relative",
 		marginHorizontal: Platform.OS === "ios" ? -15 : 0,
 		height: 150,
+		justifyContent: "space-between"
 	},
 	itemTwoTitle: {
 		color: Colors.white,
@@ -228,7 +226,7 @@ const styles = StyleSheet.create({
 	itemTwoPrice: {
 		color: Colors.white,
 		fontFamily: Fonts.primaryBold,
-		fontSize: 20,
+		fontSize: 12,
 	},
 	itemTwoImage: {
 		position: "absolute",
@@ -260,7 +258,7 @@ const styles = StyleSheet.create({
 	itemThreeContent: {
 		flex: 1,
 		paddingLeft: 15,
-		justifyContent: "space-between",
+		justifyContent: "space-between"
 	},
 	itemThreeBrand: {
 		fontFamily: Fonts.primaryRegular,
