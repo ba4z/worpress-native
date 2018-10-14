@@ -6,6 +6,7 @@ import MainTabNavigator from "./MainTabNavigator";
 import GalleryScreen from "../containers/GalleryScreen";
 import AvailableInFullVersion from "../screens/AvailableInFullVersion";
 import {Colors, Fonts} from "../constants";
+import ArticleScreen from "../containers/ArticleScreen";
 
 const RootStackNavigator = StackNavigator(
 	{
@@ -25,10 +26,8 @@ const RootStackNavigator = StackNavigator(
 			}
 		},
 		Article: {
-			screen: AvailableInFullVersion,
-			navigationOptions: {
-				header: null,
-			},
+			screen: ArticleScreen,
+			navigationOptions: {},
 		},
 		Chat: {
 			screen: AvailableInFullVersion,
@@ -52,7 +51,7 @@ const RootStackNavigator = StackNavigator(
 	{
 		navigationOptions: ({navigation}) => ({
 			title: (typeof navigation.state.params === "object" && navigation.state.params.title)
-				? navigation.state.params.title : navigation.state.params,
+				? navigation.state.params.title.clean : "",
 			headerStyle: {
 				backgroundColor: "#577AD9",
 			},

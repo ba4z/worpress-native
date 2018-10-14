@@ -38,7 +38,7 @@ export default class GridsScreen extends React.Component {
 	}
 
 	_openArticle(article) {
-		this.props.navigate({routeName: "Article", params: {...article}});
+		this.props.navigate({routeName: "Article", params: {article}});
 	}
 
 	renderRowOne(rowData) {
@@ -129,6 +129,8 @@ export default class GridsScreen extends React.Component {
 		const groupedData = this.props.tabIndex === 0 ?
 			GridRow.groupByRows(this.props.data, 2) : this.props.data;
 
+		console.log(typeof groupedData);
+
 		return (
 			<View style={styles.container}>
 				<View style={{height: 50}}>
@@ -143,7 +145,7 @@ export default class GridsScreen extends React.Component {
 				{groupedData && (
 
 					<FlatList
-						keyExtractor={item => item.id || item[0] && item[0].id}
+						key={item => item.id || item[0] && item[0].id}
 						style={{backgroundColor: Colors.white, paddingHorizontal: 15,}}
 						data={groupedData}
 						renderItem={this._getRenderItemFunction()}
