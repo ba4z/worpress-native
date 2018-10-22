@@ -129,8 +129,6 @@ export default class GridsScreen extends React.Component {
 		const groupedData = this.props.tabIndex === 0 ?
 			GridRow.groupByRows(this.props.data, 2) : this.props.data;
 
-		console.log(typeof groupedData);
-
 		return (
 			<View style={styles.container}>
 				<View style={{height: 50}}>

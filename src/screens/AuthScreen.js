@@ -90,11 +90,11 @@ export default class AuthScreen extends React.Component {
 					resizeMode="cover"
 				>
 
-					<View style={[styles.section, {paddingTop: 30}]}>
+					<View style={[styles.section, {paddingTop: 30}, this.state.isKeyboardVisible && {paddingTop: 100}]}>
 						<Animated.Image
 							resizeMode="contain"
-							style={[styles.logo, this.state.isKeyboardVisible && {height: 90}, this.fadeIn(0)]}
-							source={require("../../assets/images/white-logo.png")}
+							style={[styles.logo, this.state.isKeyboardVisible && {height: 120}, this.fadeIn(0)]}
+							source={{uri: "https://fitnessforus.com/wp-content/uploads/2018/01/FFU-Logo-Final-basic.png"}}
 						/>
 					</View>
 
@@ -130,32 +130,6 @@ export default class AuthScreen extends React.Component {
 								caption={this.state.formState === FORM_STATES.LOGIN ? "Login" : "Register"}
 								onPress={() => this.props.authStateActions.skipLogin()}
 							/>
-
-							{!this.state.isKeyboardVisible && (
-								<View style={styles.socialLoginContainer}>
-									<Button
-										style={styles.socialButton}
-										bordered
-										rounded
-										icon={require("../../assets/images/google-plus.png")}
-										onPress={() => this.props.authStateActions.skipLogin()}
-									/>
-									<Button
-										style={[styles.socialButton, styles.socialButtonCenter]}
-										bordered
-										rounded
-										icon={require("../../assets/images/twitter.png")}
-										onPress={() => this.props.authStateActions.skipLogin()}
-									/>
-									<Button
-										style={styles.socialButton}
-										bordered
-										rounded
-										icon={require("../../assets/images/facebook.png")}
-										onPress={() => this.props.authStateActions.skipLogin()}
-									/>
-								</View>
-							)}
 
 							{!this.state.isKeyboardVisible && (
 								<TouchableOpacity
@@ -219,6 +193,7 @@ const styles = StyleSheet.create({
 	},
 	logo: {
 		height: 150,
+		width: 150
 	},
 	socialLoginContainer: {
 		flexDirection: "row",

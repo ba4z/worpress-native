@@ -1,62 +1,49 @@
 import React from "react";
+import HTML from "react-native-render-html";
 import {
 	StyleSheet,
 	View,
-	Platform,
-	Image,
-	TouchableOpacity,
 	Linking,
-	ImageBackground,
+	ImageBackground, ScrollView, Animated, Dimensions
 } from "react-native";
-
 import {Fonts, Colors} from "../constants";
-import Button from "../components/Button";
-import {
-	Text,
-	Title,
-} from "../components/StyledText";
+import {Text, Title} from "../components/StyledText";
 
-export default function HomeScreen() {
-	const rnsUrl = "https://reactnativestarter.com";
-	const handleClick = () => {
-		Linking.canOpenURL(rnsUrl).then(supported => {
-			if(supported) {
-				Linking.openURL(rnsUrl);
-			} else {
-				console.log("Don't know how to open URI: " + rnsUrl);
-			}
-		});
-	};
+import {renderers} from "../lib/htmlParser";
 
-	return (
-		<View style={styles.container}>
-			<ImageBackground
-				source={require("../../assets/images/background.png")}
-				style={styles.bgImage}
-				resizeMode="cover"
-			>
-				<View style={styles.section}>
-					<Text size={20} white>Home</Text>
-				</View>
-				<View style={[styles.section, styles.sectionLarge]}>
-					<Text color="#19e7f7" hCenter size={15} style={styles.description}>
-						Connect your app with your wordpress website
-					</Text>
-					<View style={styles.priceContainer}>
-						<View style={{flexDirection: "row"}}>
-							<Text white bold size={50} style={styles.price}>Awesome</Text>
-						</View>
-					</View>
-				</View>j
-			</ImageBackground>
-		</View>
-	);
+const rnsUrl = "https://fitnessforus.com";
+const handleClick = () => {
+	Linking.canOpenURL(rnsUrl).then(supported => {
+		if(supported) {
+			Linking.openURL(rnsUrl);
+		} else {
+			console.log("Don't know how to open URI: " + rnsUrl);
+		}
+	});
+};
+
+export default class HomeScreen extends React.Component {
+
+	constructor(props) {
+		super(props);
+		this.props.homeStateAction.loadHomePage();
+	}
+
+	render() {
+
+		const homepage = this.props.data;
+		return (
+			<ScrollView style={{flex: 1, backgroundColor: "white"}}>
+				<HTML html={homepage.content.webView} imagesMaxWidth={Dimensions.get("window").width}
+				      renderers={renderers}/>
+			</ScrollView>
+		);
+	}
 }
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		alignItems: "center",
 		justifyContent: "space-around",
 	},
 	bgImage: {
@@ -68,6 +55,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 20,
 		justifyContent: "center",
 		alignItems: "center",
+		paddingTop: 20
 	},
 	sectionLarge: {
 		flex: 2,
@@ -98,5 +86,9 @@ const styles = StyleSheet.create({
 	priceLink: {
 		borderBottomWidth: 1,
 		borderBottomColor: Colors.primary,
+	},
+	logo: {
+		height: 200,
+		width: "90%"
 	},
 });

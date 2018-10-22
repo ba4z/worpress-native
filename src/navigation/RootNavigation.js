@@ -51,7 +51,7 @@ const RootStackNavigator = StackNavigator(
 	{
 		navigationOptions: ({navigation}) => ({
 			title: (typeof navigation.state.params === "object" && navigation.state.params.title)
-				? navigation.state.params.title.clean : "",
+				? navigation.state.params.title : "",
 			headerStyle: {
 				backgroundColor: "#577AD9",
 			},

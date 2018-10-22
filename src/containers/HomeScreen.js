@@ -1,14 +1,19 @@
-import { connect } from 'react-redux';
-import { compose, withState } from 'recompose';
-import moment from 'moment';
+import {connect} from "react-redux";
+import {compose} from "recompose";
 
-import HomeScreen from '../screens/HomeScreen';
+import HomeView from "../screens/HomeScreen";
+import {bindActionCreators} from "redux";
+import {NavigationActions} from "react-navigation";
+import * as HomeStateActions from "../reducers/home";
 
 export default compose(
-  connect(
-    state => ({
-
-    }),
-  ),
-  withState('isExtended', 'setIsExtended', false),
-)(HomeScreen);
+	connect(
+		state => ({
+			data: state.home.data,
+		}),
+		dispatch => ({
+			navigate: bindActionCreators(NavigationActions.navigate, dispatch),
+			homeStateAction: bindActionCreators(HomeStateActions, dispatch),
+		}),
+	),
+)(HomeView);
