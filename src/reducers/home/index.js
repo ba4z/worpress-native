@@ -4,11 +4,13 @@ import {wrapHtml, cleanHtml} from "../../lib/htmlParser";
 const initialState = {
 	loading: true,
 	data: {},
+	activeSlide: 0
 };
 
 // Actions
 const HOME_START_DATA_LOADING = "HomeState/START_DATA_LOADING";
 const HOME_DATA_LOADED = "HomeState/DATA_LOADED";
+const HOME_SLIDE_CHANGE = "HomeState/SLIDE_CHANGED";
 
 
 // Action creators
@@ -22,6 +24,13 @@ function dataLoaded(data) {
 	return {
 		type: HOME_DATA_LOADED,
 		data,
+	};
+}
+
+function slideChanged(i) {
+	return {
+		type: HOME_SLIDE_CHANGE,
+		activeSlide: i,
 	};
 }
 
@@ -46,20 +55,31 @@ export function loadHomePage() {
 	};
 }
 
+export function updateSlide(slideIndex) {
+	return (dispatch) => {
+		return dispatch(slideChanged(slideIndex));
+	};
+}
+
 
 // Reducer
 export default function HomeStateReducer(state = initialState, action = {}) {
 	switch (action.type) {
-		case HOME_START_DATA_LOADING:
-			return Object.assign({}, state, {
-				loading: true,
-			});
-		case HOME_DATA_LOADED:
-			return Object.assign({}, state, {
-				loading: false,
-				data: action.data,
-			});
-		default:
-			return state;
+	case HOME_START_DATA_LOADING:
+		return Object.assign({}, state, {
+			loading: true,
+		});
+	case HOME_DATA_LOADED:
+		return Object.assign({}, state, {
+			loading: false,
+			data: action.data,
+		});
+	case HOME_SLIDE_CHANGE:
+		return Object.assign({}, state, {
+			loading: false,
+			activeSlide: action.activeSlide
+		});
+	default:
+		return state;
 	}
 }

@@ -10,6 +10,7 @@ export default compose(
 	connect(
 		state => ({
 			data: state.home.data,
+			activeSlide: state.home.activeSlide
 		}),
 		dispatch => ({
 			navigate: bindActionCreators(NavigationActions.navigate, dispatch),

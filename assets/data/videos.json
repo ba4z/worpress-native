@@ -1,0 +1,49 @@
+{
+    "lessons": [
+        {
+            "wpId": 1003,
+            "public": {
+                "vimeoId": 249951185
+            },
+            "premium": {
+                "vimeoId": 254064896
+            }
+        },
+        {
+            "wpId": 1372,
+            "public": {
+                "vimeoId": 249198343
+            },
+            "premium": {
+                "vimeoId": 253373623
+            }
+        },
+        {
+            "wpId": 1388,
+            "public": {
+                "vimeoId": 249197937
+            },
+            "premium": {
+                "vimeoId": 254064904
+            }
+        },
+        {
+            "wpId": 1398,
+            "public": {
+                "vimeoId": 249950889
+            },
+            "premium": {
+                "vimeoId": 255485881
+            }
+        },
+        {
+            "wpId": 1404,
+            "public": {
+                "vimeoId": 249198149
+            },
+            "premium": {
+                "vimeoId": 257611971
+            }
+        }
+    ]
+}
