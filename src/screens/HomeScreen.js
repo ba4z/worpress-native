@@ -24,9 +24,31 @@ const handleClick = () => {
 
 export default class HomeScreen extends React.Component {
 
+	state = {
+		anim: new Animated.Value(0),
+	};
+
 	constructor(props) {
 		super(props);
 		// this.props.homeStateAction.loadHomePage();
+	}
+
+	fadeIn(delay, from = 0) {
+		const {anim} = this.state;
+		return {
+			opacity: anim.interpolate({
+				inputRange: [delay, Math.min(delay + 500, 3000)],
+				outputRange: [0, 1],
+				extrapolate: "clamp",
+			}),
+			transform: [{
+				translateY: anim.interpolate({
+					inputRange: [delay, Math.min(delay + 500, 3000)],
+					outputRange: [from, 0],
+					extrapolate: "clamp",
+				}),
+			}],
+		};
 	}
 
 
@@ -49,20 +71,8 @@ export default class HomeScreen extends React.Component {
 					isLooping
 				/>
 
-				<LinearGradient
-					colors={["rgba(255,255,255,0.8)", "transparent", "rgba(255,255,255,1)"]}
-					style={{
-						position: "absolute",
-						left: 0,
-						right: 0,
-						top: 0,
-						height: Dimensions.get("window").height,
-					}}
-				/>
-
-				<Text style={styles.title}>{item.title}</Text>
-
-				<View>
+				<View style={{backgroundColor: "white", padding: 20}}>
+					<Text style={styles.subtitle}>{item.title}</Text>
 					<Button
 						style={styles.demoButton}
 						primary
@@ -104,36 +114,36 @@ export default class HomeScreen extends React.Component {
 		];
 		console.log(this.props.activeSlide);
 		return (
-			<View style={{flex: 1}}>
-				<Carousel
-					ref={(c) => {
-						this._carousel = c;
-					}}
-					data={entries}
-					renderItem={({item, index}) => this._renderItem({item, index})}
-					sliderWidth={Dimensions.get("window").width}
-					itemWidth={Dimensions.get("window").width}
-					onSnapToItem={(index) => this.props.homeStateAction.updateSlide(index)}
-				/>
+			<ScrollView>
+				<View style={{flex: 1, paddingTop: 25}}>
 
-				<Pagination
-					dotsLength={entries.length}
-					activeDotIndex={this.props.activeSlide || 0}
-					// containerStyle={{backgroundColor: "rgba(0, 0, 0, 0.75)"}}
-					dotStyle={{
-						width: 10,
-						height: 10,
-						borderRadius: 5,
-						marginHorizontal: 8,
-					}}
-					inactiveDotStyle={{
-						// Define styles for inactive dots here
-					}}
-					inactiveDotOpacity={0.4}
-					inactiveDotScale={0.6}
-					containerStyle={styles.paginationContainer}
-				/>
-			</View>
+					<View style={{alignItems: "center", justifyContent: "center"}}>
+						<Image
+							resizeMode="contain"
+							style={styles.logo}
+							source={{uri: "https://fitnessforus.com/wp-content/uploads/2018/02/FFU-Logo-Final-basic-full.png"}}
+						/>
+					</View>
+
+
+					<Text style={styles.title}>Fitness Guide</Text>
+
+					<Carousel
+						ref={(c) => {
+							this._carousel = c;
+						}}
+						// layout={'stack'}
+						data={entries}
+						renderItem={({item, index}) => this._renderItem({item, index})}
+						sliderWidth={Dimensions.get("window").width}
+						itemWidth={Dimensions.get("window").width - 75}
+						containerCustomStyle={{marginBottom: 25}}
+						onSnapToItem={(index) => this.props.homeStateAction.updateSlide(index)}
+					/>
+
+					<Text style={styles.title}>Moment with Monique</Text>
+				</View>
+			</ScrollView>
 		);
 	}
 }
@@ -174,11 +184,17 @@ const styles = StyleSheet.create({
 		fontSize: 15,
 	},
 	title: {
-		marginTop: 30,
-		textAlign: "center",
 		color: Colors.primary,
 		fontFamily: Fonts.primaryBold,
 		fontSize: 25,
+		paddingBottom: 10,
+		marginLeft: 40
+	},
+	subtitle: {
+		color: Colors.primary,
+		fontFamily: Fonts.primaryBold,
+		fontSize: 17,
+		paddingBottom: 10
 	},
 	price: {
 		marginBottom: 5,
@@ -188,16 +204,15 @@ const styles = StyleSheet.create({
 		borderBottomColor: Colors.primary,
 	},
 	logo: {
-		height: 200,
+		height: 100,
 		width: "90%"
 	},
 	slide: {
-		flex: 1,
-		borderTopLeftRadius: 8,
-		borderTopRightRadius: 8,
+		borderRadius: 10,
+		backgroundColor: "white",
+		overflow: "hidden"
 	},
 	imageContainer: {
-		flex: 1,
 		backgroundColor: "white",
 		borderTopLeftRadius: 8,
 		borderTopRightRadius: 8,
@@ -208,18 +223,11 @@ const styles = StyleSheet.create({
 		borderTopRightRadius: 8,
 	},
 	video: {
-		position: "absolute",
-		top: 0,
-		left: 0,
-		bottom: 0,
-		right: 0,
-		width: Dimensions.get("window").width,
-		height: Dimensions.get("window").height
+		width: "100%",
+		height: 250,
 	},
 	paginationContainer: {
-		position: "absolute",
-		left: 0,
-		bottom: 0,
-		right: 0
+		flex: 1,
+		backgroundColor: "white"
 	}
 });

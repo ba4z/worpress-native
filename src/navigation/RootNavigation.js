@@ -1,12 +1,13 @@
 /* eslint-disable no-underscore-dangle,import/no-unresolved,react/prop-types */
 import React from "react";
-import {Image, TouchableOpacity} from "react-native";
+import {Image, Text, TouchableOpacity, View} from "react-native";
 import {StackNavigator} from "react-navigation";
 import MainTabNavigator from "./MainTabNavigator";
 import GalleryScreen from "../containers/GalleryScreen";
 import AvailableInFullVersion from "../screens/AvailableInFullVersion";
 import {Colors, Fonts} from "../constants";
 import ArticleScreen from "../containers/ArticleScreen";
+import CalendarScreen from "../containers/CalendarScreen";
 
 const RootStackNavigator = StackNavigator(
 	{
@@ -29,24 +30,12 @@ const RootStackNavigator = StackNavigator(
 			screen: ArticleScreen,
 			navigationOptions: {},
 		},
-		Chat: {
-			screen: AvailableInFullVersion,
+		Calendar: {
+			screen: CalendarScreen,
 			navigationOptions: {
-				header: null,
-			},
+				title: "Calendar",
+			}
 		},
-		Messages: {
-			screen: AvailableInFullVersion,
-			navigationOptions: {
-				header: null,
-			},
-		},
-		Charts: {
-			screen: AvailableInFullVersion,
-			navigationOptions: {
-				header: null,
-			},
-		}
 	},
 	{
 		navigationOptions: ({navigation}) => ({

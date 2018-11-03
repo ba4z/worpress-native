@@ -28,7 +28,7 @@ const labels = ["Urgent", "Interview"];
 export function loadItems(day) {
 	// Do items loading here
 	return (dispatch, getState) => {
-		if(getState().calendar.items.length > 0) return;
+		// if(getState().calendar.items.length > 0) return;
 
 		let items = {};
 
