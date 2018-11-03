@@ -30,7 +30,7 @@ export default class GridsScreen extends React.Component {
 	}
 
 	componentDidMount() {
-		this.props.gridStateActions.loadData();
+		// this.props.gridStateActions.loadData();
 	}
 
 	_getRenderItemFunction() {

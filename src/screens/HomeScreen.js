@@ -8,8 +8,9 @@ import {
 } from "react-native";
 import {Fonts, Colors} from "../constants";
 import {Text, Title} from "../components/StyledText";
-import Carousel, {Pagination} from "react-native-snap-carousel";
+import Carousel, {ParallaxImage} from "react-native-snap-carousel";
 import {Button} from "../components";
+import {getFeaturedMedia} from "../lib/htmlParser";
 
 const rnsUrl = "https://fitnessforus.com";
 const handleClick = () => {
@@ -24,45 +25,26 @@ const handleClick = () => {
 
 export default class HomeScreen extends React.Component {
 
-	state = {
-		anim: new Animated.Value(0),
-	};
-
 	constructor(props) {
 		super(props);
-		// this.props.homeStateAction.loadHomePage();
 	}
 
-	fadeIn(delay, from = 0) {
-		const {anim} = this.state;
-		return {
-			opacity: anim.interpolate({
-				inputRange: [delay, Math.min(delay + 500, 3000)],
-				outputRange: [0, 1],
-				extrapolate: "clamp",
-			}),
-			transform: [{
-				translateY: anim.interpolate({
-					inputRange: [delay, Math.min(delay + 500, 3000)],
-					outputRange: [from, 0],
-					extrapolate: "clamp",
-				}),
-			}],
-		};
+	componentDidMount() {
+		this.props.homeStateAction.loadLessons();
+		this.props.homeStateAction.loadHomePage();
 	}
-
 
 	// https://github.com/expo/videoplayer
 	// https://github.com/archriss/react-native-snap-carousel#usage
 
 
-	_renderItem({item, index}) {
+	_renderLessonSlide({item, index}) {
 		const shouldPlay = index === this.props.activeSlide;
 		return (
 			<View style={styles.slide} key={index}>
 
 				<Video
-					source={{uri: item.illustration}}
+					source={{uri: item.public.videoUrl}}
 					rate={0.9}
 					isMuted={true}
 					style={styles.video}
@@ -84,35 +66,36 @@ export default class HomeScreen extends React.Component {
 		);
 	}
 
+	_renderBlogSlide({item, index}, parallaxProps) {
+
+		return (
+			<View style={styles.slide} key={index}>
+
+				<ParallaxImage
+					source={{uri: getFeaturedMedia(item, "medium_large")}}
+					containerStyle={styles.imageContainer}
+					style={styles.image}
+					parallaxFactor={0.4}
+					{...parallaxProps}
+				/>
+
+
+				<View style={{backgroundColor: "white", padding: 20}}>
+					<Text style={styles.subtitle}>{item.title.rendered}</Text>
+					<Text numberOfLines={3} style={{marginBottom: 10}}>{item.excerpt.rendered}</Text>
+					<Button
+						style={styles.demoButton}
+						primary
+						caption="Read More"
+						onPress={this.buttonClicked}
+					/>
+				</View>
+			</View>
+		);
+	}
+
 	render() {
-		const entries = [
-			{
-				title: "Beautiful and dramatic Antelope Canyon",
-				subtitle: "Lorem ipsum dolor sit amet et nuncat mergitur",
-				illustration: "https://player.vimeo.com/external/249951185.m3u8?s=6a94b3e4fd42d5640045b398a8bf2a9d34f96bad&oauth2_token_id=1133776774"
-			},
-			{
-				title: "Earlier this morning, NYC",
-				subtitle: "Lorem ipsum dolor sit amet",
-				illustration: "https://player.vimeo.com/external/249198343.m3u8?s=283633ceabb3ce87fd0f61ee7645edce9f3f1a25&oauth2_token_id=1133776774"
-			},
-			{
-				title: "White Pocket Sunset",
-				subtitle: "Lorem ipsum dolor sit amet et nuncat ",
-				illustration: "https://player.vimeo.com/external/249198149.m3u8?s=31ba98e2077c71408cd9f20a4b2dc81f1f3a557c&oauth2_token_id=1133776774"
-			},
-			{
-				title: "Acrocorinth, Greece",
-				subtitle: "Lorem ipsum dolor sit amet et nuncat mergitur",
-				illustration: "https://player.vimeo.com/external/249950889.m3u8?s=2f0164e65276f1f74bd2dedca93623c6daede2fb&oauth2_token_id=1133776774"
-			},
-			{
-				title: "The lone tree, majestic landscape of New Zealand",
-				subtitle: "Lorem ipsum dolor sit amet",
-				illustration: "https://player.vimeo.com/external/249198149.m3u8?s=31ba98e2077c71408cd9f20a4b2dc81f1f3a557c&oauth2_token_id=1133776774"
-			},
-		];
-		console.log(this.props.activeSlide);
+
 		return (
 			<ScrollView>
 				<View style={{flex: 1, paddingTop: 25}}>
@@ -130,11 +113,10 @@ export default class HomeScreen extends React.Component {
 
 					<Carousel
 						ref={(c) => {
-							this._carousel = c;
+							this._lessonCarousel = c;
 						}}
-						// layout={'stack'}
-						data={entries}
-						renderItem={({item, index}) => this._renderItem({item, index})}
+						data={this.props.lessons}
+						renderItem={({item, index}) => this._renderLessonSlide({item, index})}
 						sliderWidth={Dimensions.get("window").width}
 						itemWidth={Dimensions.get("window").width - 75}
 						containerCustomStyle={{marginBottom: 25}}
@@ -142,6 +124,19 @@ export default class HomeScreen extends React.Component {
 					/>
 
 					<Text style={styles.title}>Moment with Monique</Text>
+
+					{this.props.posts && this.props.posts.length > 0 && (
+						<Carousel
+							ref={(c) => {
+								this._postsCarousel = c;
+							}}
+							data={this.props.posts}
+							renderItem={({item, index}, parallaxProps) => this._renderBlogSlide({item, index}, parallaxProps)}
+							sliderWidth={Dimensions.get("window").width}
+							itemWidth={Dimensions.get("window").width - 75}
+							containerCustomStyle={{marginBottom: 25}}
+							hasParallaxImages={true}
+						/>)}
 				</View>
 			</ScrollView>
 		);
@@ -216,6 +211,8 @@ const styles = StyleSheet.create({
 		backgroundColor: "white",
 		borderTopLeftRadius: 8,
 		borderTopRightRadius: 8,
+		height: 200,
+		width: 300
 	},
 	image: {
 		resizeMode: "cover",

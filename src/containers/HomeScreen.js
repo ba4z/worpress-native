@@ -9,7 +9,10 @@ import * as HomeStateActions from "../reducers/home";
 export default compose(
 	connect(
 		state => ({
-			data: state.home.data,
+			posts: state.home.posts,
+			lessons: state.home.lessons,
+			loading: state.home.loading,
+			lessonsLoading: state.home.lessonsLoading,
 			activeSlide: state.home.activeSlide
 		}),
 		dispatch => ({

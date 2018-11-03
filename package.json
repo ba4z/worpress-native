@@ -2,7 +2,7 @@
   "main": "node_modules/expo/AppEntry.js",
   "private": true,
   "scripts": {
-    "start": "expo start",
+    "start": "expo start -c",
     "test": "node ./node_modules/jest/bin/jest.js",
     "test-update": "node ./node_modules/jest/bin/jest.js --updateSnapshot",
     "lint": "./node_modules/eslint/bin/eslint.js src",

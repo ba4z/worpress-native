@@ -40,6 +40,13 @@ export function cleanHtml(html) {
 	return dom.childNodes[0].childNodes[0].data;
 }
 
+export function getFeaturedMedia(post, size) {
+	if(post && post._embedded && post._embedded["wp:featuredmedia"][0] && post._embedded["wp:featuredmedia"][0]["media_details"].sizes[size]){
+		return post._embedded["wp:featuredmedia"][0]["media_details"].sizes[size].source_url;
+	}
+	return "https://fitnessforus.com/wp-content/uploads/2017/06/Monique2017-164748-Edit-1024x684.jpg";
+}
+
 const laHeadingRenderer = (htmlAttribs, children, convertedCSSStyles, passProps) => {
 	// console.log(htmlAttribs);
 	return (
