@@ -8,12 +8,14 @@ import HomeReducer from "./home";
 // ## Generator Reducer Imports
 import GalleryReducer from "./gallery";
 import AuthReducer from "./auth";
+import ArticleReducer from "./article";
 
 export default combineReducers({
 	navigation: NavigationStateReducer,
 	calendar: CalendarReducer,
 	grid: GridReducer,
 	home: HomeReducer,
+	article: ArticleReducer,
 
 	// ## Generator Reducers
 	gallery: GalleryReducer,

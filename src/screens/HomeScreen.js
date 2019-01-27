@@ -10,7 +10,7 @@ import {Fonts, Colors} from "../constants";
 import {Text, Title} from "../components/StyledText";
 import Carousel, {ParallaxImage} from "react-native-snap-carousel";
 import {Button} from "../components";
-import {getFeaturedMedia} from "../lib/htmlParser";
+import {getFeaturedMedia, removeMenu} from "../lib/htmlParser";
 
 const rnsUrl = "https://fitnessforus.com";
 const handleClick = () => {
@@ -32,6 +32,15 @@ export default class HomeScreen extends React.Component {
 	componentDidMount() {
 		this.props.homeStateAction.loadLessons();
 		this.props.homeStateAction.loadHomePage();
+	}
+
+	viewLesson(item) {
+		// console.log(item);
+		// this.props.navigate({routeName: "Article"});
+	}
+
+	viewArticle(article) {
+		this.props.navigate({routeName: "Article", params: {article}});
 	}
 
 	// https://github.com/expo/videoplayer
@@ -59,7 +68,7 @@ export default class HomeScreen extends React.Component {
 						style={styles.demoButton}
 						primary
 						caption="Watch Now"
-						onPress={this.buttonClicked}
+						onPress={() => this.viewLesson(item)}
 					/>
 				</View>
 			</View>
@@ -87,7 +96,7 @@ export default class HomeScreen extends React.Component {
 						style={styles.demoButton}
 						primary
 						caption="Read More"
-						onPress={this.buttonClicked}
+						onPress={() => this.viewArticle(item)}
 					/>
 				</View>
 			</View>

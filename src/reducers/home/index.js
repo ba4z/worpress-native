@@ -72,7 +72,6 @@ export function loadHomePage() {
 		return fetch("https://fitnessforus.com/wp-json/wp/v2/posts?_embed")
 			.then(response => response.json())
 			.then(posts => {
-				console.log("Loaded posts");
 				posts.forEach(post => {
 					post.title.rendered = cleanHtml(`<p>${post.title.rendered}</p>`);
 					post.excerpt.rendered = cleanHtml(post.excerpt.rendered);

@@ -2,7 +2,8 @@ import React from "react";
 import {
 	StyleSheet,
 	View,
-	WebView
+	WebView,
+	Text
 } from "react-native";
 
 import {Fonts, Colors} from "../constants";
@@ -11,24 +12,32 @@ export default class ArticleScreen extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.props.navigation.setParams({ title: props.navigation.state.params.article.title.clean });
+		this.props.articleStateActions.loadArticle(props.navigation.state.params.article.guid.rendered);
+		this.props.navigation.setParams({title: props.navigation.state.params.article.title.rendered});
+	}
+
+	onLoadError(err) {
+		console.log("Error during page load:");
+		console.log(err);
 	}
 
 	render() {
-		const article = this.props.navigation.state.params.article;
+		const article = this.props.articleHtml;
 		if(!article) {
 			return  (
-				<View/>
+				<View></View>
 			);
 		}
-
 		return (
 			<View style={styles.container}>
 				<WebView
 					allowsInlineMediaPlayback={true}
 					scalesPageToFit={true}
 					originWhitelist={["*"]}
-					source={{html: `${article.content.webView}`}}/>
+					onError={this.onLoadError}
+					renderError={this.onLoadError}
+					startInLoadingState={true}
+					source={{html: article, baseUrl: "https://fitnessforus.com"}}/>
 			</View>
 		);
 	}
